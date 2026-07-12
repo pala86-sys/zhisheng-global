@@ -265,20 +265,77 @@
   .reveal.in{opacity:1; transform:none;}
 
   /* ---------- responsive ---------- */
-  @media (max-width: 860px){
-    .navlinks{display:none;}
-    .hero-grid{grid-template-columns:1fr; gap:56px;}
-    .hero{padding:150px 20px 90px;}
-    h1{font-size:clamp(24px,7.2vw,36px);}
-    .pain-grid{grid-template-columns:1fr;}
-    .steps{grid-template-columns:1fr; gap:48px;}
-    .trans-box{grid-template-columns:1fr;}
-    .story-box{grid-template-columns:1fr;}
-    .story-side{border-left:none; border-top:1px solid rgba(47,111,237,0.4); padding-left:0; padding-top:24px;}
-    table{font-size:12.5px;}
-    .wrap{padding:0 20px;}
-    section{padding:88px 0;}
+  img, svg{max-width:100%; height:auto;}
+  .table-scroll{width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; margin-top:56px;}
+  .table-scroll table{margin-top:0; min-width:640px;}
+
+  @media (max-width: 1100px){
+    .hero-grid{gap:40px;}
+    .navlinks{gap:22px;}
+    nav{padding:16px 24px;}
+    .hero{padding:160px 24px 100px;}
+    .wrap{padding:0 24px;}
   }
+
+  @media (max-width: 860px){
+    nav{padding:14px 16px;}
+    .navlinks{display:none;}
+    .nav-cta{font-size:13px; padding:8px 14px;}
+    .brand span{font-size:15px;}
+    .wrap{padding:0 16px;}
+    section{padding:72px 0;}
+    .hero{padding:120px 16px 72px;}
+    .hero-grid{grid-template-columns:1fr; gap:40px;}
+    h1{
+      font-size:clamp(22px, 6.5vw, 34px);
+      line-height:1.4;
+    }
+    h1 .line{white-space:nowrap;}
+    .hero-sub{font-size:15px; margin-top:20px; max-width:none;}
+    .hero-actions{margin-top:28px; gap:10px;}
+    .btn-primary, .btn-ghost{width:100%; justify-content:center; padding:14px 20px;}
+    .disclosure-line{font-size:12px;}
+    .demo-card{padding:24px 20px; border-radius:18px;}
+    .demo-number .num{font-size:56px;}
+    .demo-foot{flex-direction:column; gap:8px;}
+    .pain-grid{grid-template-columns:1fr; margin-top:40px;}
+    .pain-card{padding:28px 22px;}
+    .steps{grid-template-columns:1fr; gap:36px; margin-top:40px;}
+    .trans-box{
+      grid-template-columns:1fr;
+      padding:28px 20px;
+      gap:28px;
+      margin-top:40px;
+    }
+    .trans-h{font-size:20px;}
+    .trans-right .row{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:6px;
+    }
+    .story-box{grid-template-columns:1fr; gap:28px; margin-top:40px;}
+    .story-side{border-left:none; border-top:1px solid rgba(47,111,237,0.4); padding-left:0; padding-top:24px;}
+    .cta-box{padding:48px 20px; margin-top:40px; border-radius:18px;}
+    .cta-form{flex-direction:column; align-items:stretch;}
+    .cta-form input{width:100%;}
+    .cta-form button{width:100%;}
+    .hero-actions[style]{flex-direction:column; width:100%;}
+    footer{padding:40px 16px 32px;}
+    .foot-grid{flex-direction:column; gap:28px;}
+    .foot-links{gap:32px;}
+    .foot-bottom{margin-top:32px;}
+    .table-scroll{margin-top:36px;}
+  }
+
+  @media (max-width: 480px){
+    h1{font-size:clamp(20px, 7vw, 28px);}
+    .demo-number .num{font-size:48px;}
+    .demo-number .pct{font-size:22px;}
+    .eyebrow{font-size:11px; letter-spacing:0.1em; padding:5px 12px;}
+    .section-title{font-size:clamp(22px, 6vw, 28px);}
+    .compare-quote{font-size:clamp(18px, 5vw, 24px);}
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important; transition:none !important;}
   }
@@ -321,8 +378,8 @@
     <div class="reveal in">
       <div class="eyebrow"><span class="dot"></span> AI 零程式碼回測平台</div>
       <h1>
-        <span class="line">不聽明牌，只看數據。</span>
-        <span class="line">告別盲目，<span class="accent">數據引路</span>。</span>
+        <span class="line">不聽明牌，只看數據</span>
+        <span class="line">告別盲目，<span class="accent">數據引路</span></span>
       </h1>
       <p class="hero-sub">把你心裡那套模糊的交易邏輯，變成一個用真實歷史數據驗證過的勝率與賺賠比——不是信心喊話，是你自己可以驗證的理由。</p>
       <div class="hero-actions">
@@ -403,7 +460,8 @@
     <div class="section-label reveal">與市場不同</div>
     <p class="compare-quote reveal">別人給你<span class="em">信心喊話</span>，我們給你<span class="em">可以自己驗證</span>的理由。</p>
 
-    <table class="reveal">
+    <div class="table-scroll reveal">
+    <table>
       <thead>
         <tr>
           <th></th>
@@ -437,6 +495,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </section>
 
@@ -551,7 +610,7 @@
         <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="26" stroke="#FFFFFF" stroke-width="2.4"/><path d="M17 40 C 24 42, 30 34, 36 26 C 39 22, 42 20, 47 20" stroke="#2F6FED" stroke-width="3.2" stroke-linecap="round" fill="none"/><path d="M40 18 L48 20 L45 27" stroke="#2F6FED" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         <span>智勝全球</span>
       </div>
-      <p class="foot-tag">不聽明牌，只看數據。告別盲目，數據引路。</p>
+      <p class="foot-tag">不聽明牌，只看數據<br>告別盲目，數據引路</p>
     </div>
     <div class="foot-links">
       <div class="foot-col">

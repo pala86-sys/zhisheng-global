@@ -731,8 +731,19 @@ body {
 .chart-ref-group { display: inline-flex; gap: 4px; }
 
 @media (max-width: 640px) {
+  .container { padding: 16px 12px 32px; }
+  .form-row { flex-direction: column; }
+  .field, .field-sm, .field-grow, .field-ma { width: 100%; min-width: 0; }
+  .params-row { flex-direction: column; }
+  .action-row { flex-direction: column; }
+  .action-row .btn-primary,
+  .action-row .btn-ghost { width: 100%; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
   .horizon-grid { grid-template-columns: 1fr; }
   .result-summary { flex-direction: column; }
   .strategy-badge { max-width: 100%; text-align: left; }
+  .topbar-inner { gap: 10px; }
+  .topbar h1 { font-size: 0.95rem; }
+  .composite-list { grid-template-columns: 1fr; }
+  .optimize-toolbar { flex-direction: column; align-items: stretch; }
 }
