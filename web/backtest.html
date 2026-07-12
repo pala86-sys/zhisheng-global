@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>智勝全球 · 策略回測</title>
+  <link rel="stylesheet" href="/static/style.css?v=9" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="topbar-brand">
+        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="26" stroke="#FFFFFF" stroke-width="2.4"/><path d="M17 40 C 24 42, 30 34, 36 26 C 39 22, 42 20, 47 20" stroke="#2F6FED" stroke-width="3.2" stroke-linecap="round" fill="none"/><path d="M40 18 L48 20 L45 27" stroke="#2F6FED" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <span>智勝全球</span>
+      </a>
+      <h1>策略回測</h1>
+      <a href="/" class="topbar-link">回首頁</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel form-panel">
+      <div class="form-row">
+        <div class="field search-wrap">
+          <label for="symbol-input">股票</label>
+          <input id="symbol-input" type="text" placeholder="2330、台積電" autocomplete="off" />
+          <div id="suggestions" class="suggestions hidden"></div>
+        </div>
+        <div class="field field-toggles">
+          <label>方向</label>
+          <div class="toggle-group" id="side-toggle">
+            <button type="button" class="toggle-btn active" data-side="buy">作多</button>
+            <button type="button" class="toggle-btn" data-side="sell">作空</button>
+          </div>
+        </div>
+        <div class="field field-toggles">
+          <label>模式</label>
+          <div class="toggle-group" id="mode-toggle">
+            <button type="button" class="toggle-btn active" data-mode="single">單一</button>
+            <button type="button" class="toggle-btn" data-mode="composite">複合</button>
+            <button type="button" class="toggle-btn" data-mode="ma_pair">均線配對</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="category-field" class="form-row">
+        <div class="field field-toggles">
+          <label>類型</label>
+          <div class="toggle-group" id="category-toggle">
+            <button type="button" class="toggle-btn active" data-category="technical">技術</button>
+            <button type="button" class="toggle-btn" data-category="chips">籌碼</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="single-strategy-wrap" class="form-row">
+        <div class="field field-grow">
+          <label for="strategy-select">策略</label>
+          <select id="strategy-select" data-tip=""></select>
+        </div>
+      </div>
+
+      <div id="ma-pair-wrap" class="form-row ma-pair-form hidden">
+        <div class="field field-ma">
+          <label for="ma-entry-select" id="ma-entry-label">買入均線</label>
+          <select id="ma-entry-select" class="select-wide">
+            <option value="5">MA5</option>
+            <option value="10">MA10</option>
+            <option value="20">MA20</option>
+            <option value="60" selected>MA60</option>
+          </select>
+        </div>
+        <div class="field field-ma">
+          <label for="ma-entry-mode">進場條件</label>
+          <select id="ma-entry-mode" class="select-wide">
+            <option value="touch_ma" selected>觸及買入均線</option>
+            <option value="volume_break_ma">帶量站上均線</option>
+          </select>
+        </div>
+        <div class="field field-ma">
+          <label for="ma-exit-select" id="ma-exit-label">賣出均線</label>
+          <select id="ma-exit-select" class="select-wide">
+            <option value="5">MA5</option>
+            <option value="10">MA10</option>
+            <option value="20" selected>MA20</option>
+            <option value="60">MA60</option>
+          </select>
+        </div>
+        <div class="field field-ma">
+          <label for="ma-exit-mode">出場條件</label>
+          <select id="ma-exit-mode" class="select-wide">
+            <option value="touch_ma" selected>觸及賣出均線</option>
+            <option value="volume_break_ma">帶量跌破均線</option>
+          </select>
+        </div>
+        <div class="field field-grow ma-pair-note-wrap">
+          <p class="field-note ma-pair-note"></p>
+        </div>
+      </div>
+
+      <div id="composite-strategy-wrap" class="form-row hidden">
+        <div class="field field-grow">
+          <label>複合條件 <span class="label-note">AND · 至少 2 項</span></label>
+          <div id="composite-list" class="composite-list"></div>
+          <p id="composite-desc" class="field-note"></p>
+        </div>
+      </div>
+
+      <div class="form-row params-row">
+        <div class="field field-sm">
+          <label for="years-select">年數</label>
+          <select id="years-select">
+            <option value="1">1 年</option>
+            <option value="2">2 年</option>
+            <option value="3" selected>3 年</option>
+            <option value="5">5 年</option>
+          </select>
+        </div>
+        <div class="field field-sm">
+          <label for="holding-input" id="holding-label">持有</label>
+          <input id="holding-input" type="number" min="1" max="240" value="20" />
+        </div>
+        <div class="field field-sm" id="target-field">
+          <label for="target-input">停利%</label>
+          <input id="target-input" type="number" min="0.1" max="50" step="0.1" value="5" />
+        </div>
+        <div class="field field-sm">
+          <label for="stop-input">停損%</label>
+          <input id="stop-input" type="number" min="0.1" max="30" step="0.1" value="3" />
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button id="run-btn" class="btn-primary">回測</button>
+        <button id="optimize-btn" class="btn-ghost" type="button">最佳化</button>
+        <button id="ma-pair-scan-btn" class="btn-ghost hidden" type="button">掃描配對</button>
+      </div>
+    </section>
+
+    <section id="status" class="status hidden"></section>
+
+    <section id="ma-pair-results" class="panel hidden">
+      <div class="panel-head">
+        <div>
+          <h2 id="ma-pair-title">均線配對掃描</h2>
+          <p id="ma-pair-meta" class="meta"></p>
+        </div>
+        <button id="ma-pair-close" type="button" class="btn-text">關閉</button>
+      </div>
+      <div class="table-wrap">
+        <table id="ma-pair-table" class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>配對</th>
+              <th>次數</th>
+              <th>勝率</th>
+              <th>均報酬</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="optimize-results" class="panel optimize-panel hidden">
+      <div class="panel-head">
+        <div>
+          <h2 id="optimize-title">最佳化結果</h2>
+          <p id="optimize-meta" class="meta"></p>
+          <p id="optimize-pick" class="optimize-pick"></p>
+        </div>
+        <button id="optimize-close" type="button" class="btn-text">關閉</button>
+      </div>
+      <div id="optimize-compare" class="optimize-compare hidden"></div>
+      <div class="optimize-toolbar">
+        <div class="toolbar-group" id="optimize-sort">
+          <button type="button" class="chip active" data-sort="score" data-tip="綜合勝率與訊號頻率">綜合分</button>
+          <button type="button" class="chip" data-sort="win_rate" data-tip="歷史勝率">勝率</button>
+          <button type="button" class="chip" data-sort="signals" data-tip="訊號次數">訊號</button>
+        </div>
+        <div class="toolbar-group" id="optimize-filter">
+          <button type="button" class="chip" data-filter="all" data-tip="含訊號偏少">全部</button>
+          <button type="button" class="chip active" data-filter="qualified" data-tip="達進場門檻">可進場</button>
+          <button type="button" class="chip" data-filter="single" data-tip="單一策略">單一</button>
+          <button type="button" class="chip" data-filter="composite" data-tip="複合策略">複合</button>
+        </div>
+      </div>
+      <div id="optimize-radar" class="optimize-radar"></div>
+      <div class="table-wrap">
+        <table id="optimize-table" class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>策略</th>
+              <th>訊號</th>
+              <th>勝率</th>
+              <th>報酬</th>
+              <th>綜合</th>
+              <th id="optimize-compare-th" class="hidden">Δ</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="results" class="hidden">
+      <div class="panel result-summary">
+        <div>
+          <h2 id="stock-title">—</h2>
+          <p id="stock-meta" class="meta"></p>
+        </div>
+        <span class="strategy-badge" id="strategy-badge">—</span>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-label">勝率</span>
+          <span class="stat-value" id="win-rate">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">訊號</span>
+          <span class="stat-value" id="total-signals">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">勝敗</span>
+          <span class="stat-value stat-sm" id="win-loss">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">均報酬</span>
+          <span class="stat-value stat-sm" id="avg-return">—</span>
+        </div>
+      </div>
+      <div class="stats-row stats-row-sub hidden" id="stats-extra">
+        <div class="stat stat-sub">
+          <span class="stat-label">均獲利</span>
+          <span class="stat-value stat-sm positive" id="avg-win">—</span>
+        </div>
+        <div class="stat stat-sub">
+          <span class="stat-label">均虧損</span>
+          <span class="stat-value stat-sm negative" id="avg-loss">—</span>
+        </div>
+      </div>
+
+      <div id="today-panel" class="panel today-panel hidden">
+        <h3 id="today-title">短中長期勝率</h3>
+        <p id="today-message" class="meta"></p>
+        <div id="horizon-grid" class="horizon-grid"></div>
+      </div>
+
+      <div class="panel chart-panel">
+        <div id="chart-container"></div>
+      </div>
+
+      <div class="panel">
+        <h3 class="section-title">交易紀錄</h3>
+        <div class="table-wrap">
+          <table id="trades-table" class="data-table">
+            <thead>
+              <tr>
+                <th id="th-entry-date">進場日</th>
+                <th id="th-entry-price">進場價</th>
+                <th id="th-exit-date">離場日</th>
+                <th id="th-exit-price">離場價</th>
+                <th>報酬</th>
+                <th>結果</th>
+                <th>原因</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <p class="disclaimer">本平台僅呈現歷史數據回測結果，不構成個股推介或投資建議，歷史數據不代表未來績效。</p>
+  </main>
+
+  <p id="strategy-desc" class="sr-only" aria-hidden="true"></p>
+
+  <script src="/static/optimize-viz.js?v=1"></script>
+  <script src="/static/chart.js?v=15"></script>
+  <script src="/static/app.js?v=22"></script>
+</body>
+</html>

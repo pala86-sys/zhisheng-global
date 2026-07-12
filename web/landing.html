@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智勝全球 Zhisheng Global｜不聽明牌，只看數據</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0D0F14;
+    --black-2:#14171F;
+    --white:#FFFFFF;
+    --blue:#2F6FED;
+    --blue-dim:rgba(47,111,237,0.14);
+    --gray:#8A8F98;
+    --gray-line:rgba(138,143,152,0.22);
+    --serif-zh:"Noto Sans TC","思源黑體",sans-serif;
+    --sans-en:"Inter",sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:var(--serif-zh);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  .en{font-family:var(--sans-en);}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(13,15,20,0.72);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--gray-line);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:1120px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand svg{width:28px; height:28px; display:block;}
+  .brand span{font-weight:700; font-size:16px; letter-spacing:0.02em;}
+  .navlinks{display:flex; gap:36px; font-size:14px; color:var(--gray);}
+  .navlinks a{transition:color .2s;}
+  .navlinks a:hover{color:var(--white);}
+  .nav-cta{
+    font-size:14px; font-weight:600; padding:9px 20px; border-radius:100px;
+    background:var(--blue); color:var(--white); white-space:nowrap;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .nav-cta:hover{transform:translateY(-1px); box-shadow:0 8px 24px rgba(47,111,237,0.35);}
+  .mobile-only{display:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:180px 32px 120px;
+    overflow:hidden;
+  }
+  .hero-track{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    opacity:0.55;
+  }
+  .hero-grid{
+    max-width:1120px; margin:0 auto; position:relative; z-index:1;
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:64px; align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--sans-en); font-size:12px; font-weight:600; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--blue);
+    border:1px solid rgba(47,111,237,0.35); background:var(--blue-dim);
+    padding:6px 14px; border-radius:100px; margin-bottom:28px;
+  }
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--blue); animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+  h1{
+    font-size:clamp(38px,5vw,58px);
+    font-weight:900;
+    line-height:1.18;
+    letter-spacing:-0.01em;
+  }
+  h1 .accent{color:var(--blue);}
+  .hero-sub{
+    margin-top:26px; font-size:17px; line-height:1.8; color:#C9CCD3; max-width:480px;
+  }
+  .hero-actions{display:flex; gap:14px; margin-top:40px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--blue); color:var(--white); font-weight:700; font-size:15px;
+    padding:15px 28px; border-radius:100px; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 28px rgba(47,111,237,0.4);}
+  .btn-ghost{
+    border:1px solid var(--gray-line); color:var(--white); font-weight:600; font-size:15px;
+    padding:15px 26px; border-radius:100px; transition:border-color .2s, background .2s;
+  }
+  .btn-ghost:hover{border-color:var(--white); background:rgba(255,255,255,0.04);}
+
+  .disclosure-line{
+    margin-top:28px; font-size:12.5px; color:var(--gray); display:flex; gap:8px; align-items:flex-start;
+  }
+  .disclosure-line svg{flex-shrink:0; margin-top:2px;}
+
+  /* ---------- demo card (signature element) ---------- */
+  .demo-card{
+    position:relative;
+    background:linear-gradient(180deg, var(--black-2), var(--black));
+    border:1px solid var(--gray-line);
+    border-radius:22px;
+    padding:34px;
+    box-shadow:0 40px 100px -30px rgba(0,0,0,0.7);
+  }
+  .demo-top{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:var(--gray); font-family:var(--sans-en);}
+  .demo-strategy{margin-top:22px; font-size:13.5px; color:#C9CCD3; line-height:1.6;}
+  .demo-strategy b{color:var(--white); font-weight:600;}
+  .demo-number{
+    margin-top:22px; display:flex; align-items:baseline; gap:6px;
+  }
+  .demo-number .num{
+    font-family:var(--sans-en); font-weight:800; font-size:76px; color:var(--blue);
+    letter-spacing:-0.02em; line-height:1;
+  }
+  .demo-number .pct{font-family:var(--sans-en); font-weight:700; font-size:28px; color:var(--blue);}
+  .demo-label{font-size:14px; color:#C9CCD3; margin-top:6px;}
+  .demo-chart{margin-top:26px; height:120px;}
+  .demo-chart svg{width:100%; height:100%; display:block;}
+  .demo-foot{
+    margin-top:20px; padding-top:18px; border-top:1px solid var(--gray-line);
+    display:flex; justify-content:space-between; font-size:11.5px; color:var(--gray);
+  }
+
+  /* ---------- section shared ---------- */
+  section{padding:120px 0;}
+  .section-label{
+    font-family:var(--sans-en); font-size:12px; font-weight:700; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--blue); margin-bottom:16px;
+  }
+  .section-title{font-size:clamp(26px,3.4vw,36px); font-weight:900; line-height:1.35; max-width:680px;}
+  .section-sub{margin-top:18px; font-size:16px; line-height:1.85; color:#C9CCD3; max-width:600px;}
+
+  /* ---------- pain points ---------- */
+  .pains{border-top:1px solid var(--gray-line);}
+  .pain-grid{
+    margin-top:56px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--gray-line); border:1px solid var(--gray-line); border-radius:16px; overflow:hidden;
+  }
+  .pain-card{background:var(--black); padding:36px 30px;}
+  .pain-num{font-family:var(--sans-en); font-size:13px; color:var(--gray); font-weight:600;}
+  .pain-title{margin-top:18px; font-size:19px; font-weight:700; line-height:1.5;}
+  .pain-desc{margin-top:12px; font-size:14.5px; line-height:1.8; color:var(--gray);}
+
+  /* ---------- compare ---------- */
+  .compare{border-top:1px solid var(--gray-line);}
+  .compare-quote{
+    font-size:clamp(22px,2.6vw,30px); font-weight:700; line-height:1.5; max-width:760px; margin-top:24px;
+  }
+  .compare-quote .em{color:var(--blue);}
+  table{width:100%; margin-top:56px; border-collapse:collapse; font-size:14.5px;}
+  thead th{
+    text-align:left; padding:14px 18px; color:var(--gray); font-weight:600; font-size:12.5px;
+    letter-spacing:0.04em; border-bottom:1px solid var(--gray-line);
+  }
+  tbody td{padding:20px 18px; border-bottom:1px solid var(--gray-line); vertical-align:top; line-height:1.7;}
+  tbody tr td:first-child{color:var(--gray); font-weight:600; white-space:nowrap;}
+  .col-us{background:var(--blue-dim);}
+  thead th.col-us{color:var(--blue);}
+  tbody td.col-us{color:var(--white); font-weight:600; border-left:1px solid rgba(47,111,237,0.35); border-right:1px solid rgba(47,111,237,0.35);}
+
+  /* ---------- how it works ---------- */
+  .how{border-top:1px solid var(--gray-line);}
+  .steps{margin-top:64px; display:grid; grid-template-columns:repeat(3,1fr); gap:40px; position:relative;}
+  .step{position:relative;}
+  .step-arc{margin-bottom:22px;}
+  .step-arc svg{width:44px; height:44px;}
+  .step-title{font-size:18px; font-weight:700;}
+  .step-desc{margin-top:10px; font-size:14.5px; line-height:1.8; color:var(--gray);}
+  .step-index{
+    font-family:var(--sans-en); font-size:12px; color:var(--blue); font-weight:700;
+    letter-spacing:0.1em; margin-bottom:14px; display:block;
+  }
+
+  /* ---------- transparency feature ---------- */
+  .transparency{
+    border-top:1px solid var(--gray-line);
+  }
+  .trans-box{
+    margin-top:56px; border:1px solid rgba(47,111,237,0.3); border-radius:20px;
+    padding:52px; background:radial-gradient(circle at 15% 20%, rgba(47,111,237,0.12), transparent 55%);
+    display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+  }
+  .trans-tag{
+    font-family:var(--sans-en); font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--blue); margin-bottom:16px;
+  }
+  .trans-h{font-size:24px; font-weight:800; line-height:1.5;}
+  .trans-p{margin-top:16px; font-size:14.5px; line-height:1.85; color:#C9CCD3;}
+  .trans-right{
+    background:var(--black); border:1px solid var(--gray-line); border-radius:16px; padding:28px;
+  }
+  .trans-right .row{display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--gray-line); font-size:14px;}
+  .trans-right .row:last-child{border-bottom:none;}
+  .trans-right .row span:first-child{color:var(--gray);}
+  .trans-right .row span:last-child{font-weight:600;}
+  .trans-right .row.no{color:#E36A5D;}
+  .trans-right .row.yes span:last-child{color:var(--blue);}
+
+  /* ---------- story ---------- */
+  .story{border-top:1px solid var(--gray-line);}
+  .story-box{margin-top:56px; display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:center;}
+  .story-quote{font-size:clamp(20px,2.4vw,26px); font-weight:700; line-height:1.6;}
+  .story-meta{margin-top:24px; font-size:13.5px; color:var(--gray); line-height:1.8;}
+  .story-side{border-left:1px solid rgba(47,111,237,0.4); padding-left:32px;}
+  .story-side .k{font-family:var(--sans-en); font-size:12px; color:var(--gray); letter-spacing:0.08em; text-transform:uppercase;}
+  .story-side .v{margin-top:8px; font-size:15px; line-height:1.8; color:#C9CCD3;}
+  .story-side .block{margin-bottom:26px;}
+
+  /* ---------- cta ---------- */
+  .cta{border-top:1px solid var(--gray-line);}
+  .cta-box{
+    margin-top:56px; text-align:center; padding:72px 32px; border-radius:24px;
+    background:linear-gradient(180deg, var(--black-2), var(--black));
+    border:1px solid var(--gray-line);
+  }
+  .cta-box h2{font-size:clamp(26px,3.6vw,38px); font-weight:900; max-width:600px; margin:0 auto; line-height:1.4;}
+  .cta-box p{margin-top:18px; color:var(--gray); font-size:15px;}
+  .cta-form{
+    margin-top:36px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+  }
+  .cta-form input{
+    background:var(--black); border:1px solid var(--gray-line); color:var(--white);
+    padding:14px 18px; border-radius:100px; font-size:14.5px; width:280px; font-family:var(--sans-en);
+  }
+  .cta-form input::placeholder{color:var(--gray);}
+  .cta-form input:focus{outline:2px solid var(--blue); outline-offset:2px; border-color:transparent;}
+  .cta-form button{
+    background:var(--blue); color:var(--white); font-weight:700; font-size:14.5px;
+    padding:14px 26px; border-radius:100px; border:none; cursor:pointer; transition:transform .18s;
+  }
+  .cta-form button:hover{transform:translateY(-2px);}
+  .cta-note{margin-top:16px; font-size:12px; color:var(--gray);}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--gray-line); padding:56px 32px 40px;}
+  .foot-grid{max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;}
+  .foot-brand{display:flex; align-items:center; gap:10px;}
+  .foot-brand svg{width:24px; height:24px;}
+  .foot-brand span{font-weight:700; font-size:15px;}
+  .foot-tag{margin-top:12px; font-size:13px; color:var(--gray); max-width:280px; line-height:1.7;}
+  .foot-links{display:flex; gap:56px; flex-wrap:wrap;}
+  .foot-col h4{font-size:12.5px; color:var(--gray); font-weight:600; margin-bottom:14px; letter-spacing:0.04em;}
+  .foot-col a{display:block; font-size:13.5px; color:#C9CCD3; margin-bottom:10px;}
+  .foot-col a:hover{color:var(--white);}
+  .foot-bottom{
+    max-width:1120px; margin:48px auto 0; padding-top:24px; border-top:1px solid var(--gray-line);
+    font-size:11.5px; color:var(--gray); line-height:1.9;
+  }
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:none;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 860px){
+    .navlinks{display:none;}
+    .hero-grid{grid-template-columns:1fr; gap:56px;}
+    .hero{padding:150px 20px 90px;}
+    .pain-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr; gap:48px;}
+    .trans-box{grid-template-columns:1fr;}
+    .story-box{grid-template-columns:1fr;}
+    .story-side{border-left:none; border-top:1px solid rgba(47,111,237,0.4); padding-left:0; padding-top:24px;}
+    table{font-size:12.5px;}
+    .wrap{padding:0 20px;}
+    section{padding:88px 0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <nav>
+    <a href="#top" class="brand">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="26" stroke="#FFFFFF" stroke-width="2.4"/>
+        <path d="M17 40 C 24 42, 30 34, 36 26 C 39 22, 42 20, 47 20" stroke="#2F6FED" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+        <path d="M40 18 L48 20 L45 27" stroke="#2F6FED" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <span>智勝全球</span>
+    </a>
+    <div class="navlinks">
+      <a href="#pains">為什麼需要</a>
+      <a href="#compare">與市場不同</a>
+      <a href="#how">如何運作</a>
+      <a href="#transparency">合規透明</a>
+    </div>
+    <a href="/backtest" class="nav-cta">立即體驗回測</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<div id="top" class="hero">
+  <div class="hero-track" aria-hidden="true">
+    <svg viewBox="0 0 1120 700" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+      <path d="M -50 600 C 200 620, 400 500, 560 380 C 700 280, 850 240, 1170 200"
+            stroke="#2F6FED" stroke-width="1" fill="none" opacity="0.25"/>
+      <path d="M -50 650 C 220 660, 420 560, 600 440 C 760 330, 900 300, 1170 260"
+            stroke="#2F6FED" stroke-width="1" fill="none" opacity="0.14"/>
+    </svg>
+  </div>
+  <div class="hero-grid">
+    <div class="reveal in">
+      <div class="eyebrow"><span class="dot"></span> AI 零程式碼回測平台</div>
+      <h1>不聽明牌，只看數據。<br>告別盲目，<span class="accent">數據引路</span>。</h1>
+      <p class="hero-sub">把你心裡那套模糊的交易邏輯，變成一個用真實歷史數據驗證過的勝率與賺賠比——不是信心喊話，是你自己可以驗證的理由。</p>
+      <div class="hero-actions">
+        <a href="/backtest" class="btn-primary">
+          搶先體驗免費回測
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#how" class="btn-ghost">看看怎麼運作</a>
+      </div>
+      <div class="disclosure-line">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#8A8F98" stroke-width="1.2"/><path d="M7 6.2V10" stroke="#8A8F98" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="4.2" r="0.9" fill="#8A8F98"/></svg>
+        本平台僅呈現歷史數據回測結果，不構成個股推介或投資建議，歷史數據不代表未來績效。
+      </div>
+    </div>
+
+    <div class="demo-card reveal in">
+      <div class="demo-top">
+        <span>策略回測結果</span>
+        <span>近 5 年 · 歷史數據</span>
+      </div>
+      <div class="demo-strategy">你設定的策略：<b>RSI 低檔背離 ＋ 站上季線</b>，進場條件符合時買入</div>
+      <div class="demo-number">
+        <span class="num">70</span><span class="pct">%</span>
+      </div>
+      <div class="demo-label">過去 5 年，10 次進場，7 次獲利</div>
+      <div class="demo-chart">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="none">
+          <polyline points="0,90 40,86 80,70 120,74 160,52 200,58 240,36 280,42 320,20 360,26 400,10"
+                    fill="none" stroke="#2F6FED" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="0,90 40,86 80,70 120,74 160,52 200,58 240,36 280,42 320,20 360,26 400,10 400,120 0,120"
+                    fill="url(#g1)" stroke="none" opacity="0.5"/>
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2F6FED" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#2F6FED" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="demo-foot">
+        <span>賺賠比 1.8</span>
+        <span>歷史數據不代表未來績效</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PAIN POINTS ============ -->
+<section id="pains" class="pains">
+  <div class="wrap">
+    <div class="section-label reveal">為什麼會需要</div>
+    <h2 class="section-title reveal">你不是不懂，你只是沒有辦法驗證。</h2>
+    <p class="section-sub reveal">看得懂 K 線、知道本益比，訂閱了好幾個工具，但每次下單前，還是心裡發毛——這次進場，到底是真的懂，還是在賭。</p>
+
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="pain-num en">01 — 資訊孤島</div>
+        <div class="pain-title">資料變多了，答案還是沒有</div>
+        <div class="pain-desc">籌碼、財報、消息面散落在不同工具與社群，你花更多時間整理，卻沒有更接近「該不該進場」的答案。</div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-num en">02 — 缺乏科學驗證</div>
+        <div class="pain-title">憑感覺按下買賣鍵</div>
+        <div class="pain-desc">沒有工具能事先告訴你，這套邏輯過去到底行不行——你只能看更多數字，然後還是憑直覺決定。</div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-num en">03 — 給魚吃的陷阱</div>
+        <div class="pain-title">聽過明牌，賺過也套過</div>
+        <div class="pain-desc">跟過老師、進過群組，喊對時很爽，但事後說不清對方是真的準，還是矇對——你什麼都沒學到。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section id="compare" class="compare">
+  <div class="wrap">
+    <div class="section-label reveal">與市場不同</div>
+    <p class="compare-quote reveal">別人給你<span class="em">信心喊話</span>，我們給你<span class="em">可以自己驗證</span>的理由。</p>
+
+    <table class="reveal">
+      <thead>
+        <tr>
+          <th></th>
+          <th>籌碼K線</th>
+          <th>財報狗</th>
+          <th>投顧名嘴</th>
+          <th class="col-us">智勝全球</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>提供的東西</td>
+          <td>更多籌碼資料</td>
+          <td>更多財務指標</td>
+          <td>直接給答案</td>
+          <td class="col-us">可驗證的勝率</td>
+        </tr>
+        <tr>
+          <td>你得到什麼</td>
+          <td>資料，但無法驗證邏輯</td>
+          <td>指標，但無策略層級驗證</td>
+          <td>答案，但無法驗證、不透明</td>
+          <td class="col-us">自己可以證明給自己看的理由</td>
+        </tr>
+        <tr>
+          <td>合規透明度</td>
+          <td>免責聲明藏頁尾</td>
+          <td>免責聲明藏頁尾</td>
+          <td>大量處於法規灰色地帶</td>
+          <td class="col-us">透明本身就是產品的一部分</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" class="how">
+  <div class="wrap">
+    <div class="section-label reveal">如何運作</div>
+    <h2 class="section-title reveal">三個步驟，把直覺變成數字。</h2>
+
+    <div class="steps">
+      <div class="step reveal">
+        <span class="step-index en">STEP 01</span>
+        <div class="step-arc">
+          <svg viewBox="0 0 44 44" fill="none"><rect x="1" y="1" width="42" height="42" rx="12" stroke="#2F6FED" stroke-width="1.4"/><path d="M13 30 L22 14 L31 30" stroke="#2F6FED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="step-title">設定你的策略條件</div>
+        <div class="step-desc">用零程式碼介面，把你心裡那套進出場邏輯（例如技術指標、籌碼條件）具體設定出來，不需要寫一行程式。</div>
+      </div>
+      <div class="step reveal">
+        <span class="step-index en">STEP 02</span>
+        <div class="step-arc">
+          <svg viewBox="0 0 44 44" fill="none"><rect x="1" y="1" width="42" height="42" rx="12" stroke="#2F6FED" stroke-width="1.4"/><path d="M12 22 H32 M24 14 L32 22 L24 30" stroke="#2F6FED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <div class="step-title">系統跑歷史數據回測</div>
+        <div class="step-desc">AI 引擎用真實歷史數據，重演這套邏輯在過去每一次符合條件時的結果，不摻雜任何人為判斷或主觀建議。</div>
+      </div>
+      <div class="step reveal">
+        <span class="step-index en">STEP 03</span>
+        <div class="step-arc">
+          <svg viewBox="0 0 44 44" fill="none"><rect x="1" y="1" width="42" height="42" rx="12" stroke="#2F6FED" stroke-width="1.4"/><path d="M13 27 C18 29, 24 22, 31 15" stroke="#2F6FED" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M25 14 L32 15 L30 22" stroke="#2F6FED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <div class="step-title">拿到勝率與賺賠比</div>
+        <div class="step-desc">一個看得懂的數字，取代一堆看不完的資料——帶著清楚依據做決定，而不是憑感覺賭一把。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANSPARENCY FEATURE ============ -->
+<section id="transparency" class="transparency">
+  <div class="wrap">
+    <div class="section-label reveal">合規透明</div>
+    <h2 class="section-title reveal">「不報明牌」不是免責聲明，是我們的產品設計。</h2>
+
+    <div class="trans-box reveal">
+      <div>
+        <div class="trans-tag en">Our Commitment</div>
+        <div class="trans-h">我們不推介個股，只呈現你自己設定的歷史數據結果。</div>
+        <p class="trans-p">每一次出現勝率數字，旁邊都會同步出現「歷史數據不代表未來績效」——不是藏在頁尾的小字，是同一套設計語言的一部分。你看到的永遠是「這套邏輯過去表現如何」，而不是「這檔股票該不該買」。</p>
+      </div>
+      <div class="trans-right">
+        <div class="row no"><span>直接告訴你該買哪一檔</span><span>從不</span></div>
+        <div class="row no"><span>帶單／組群組收費</span><span>從不</span></div>
+        <div class="row no"><span>用「跟上車」製造急迫感</span><span>從不</span></div>
+        <div class="row yes"><span>呈現你自訂策略的歷史數據</span><span>永遠</span></div>
+        <div class="row yes"><span>同步揭露數據的侷限性</span><span>永遠</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section class="story">
+  <div class="wrap">
+    <div class="section-label reveal">種子用戶</div>
+    <div class="story-box reveal">
+      <p class="story-quote">「原來我心裡那套模糊的想法，真的可以被量化驗證——就算結果不如預期，我也知道自己是依循一套邏輯，不是在賭。」</p>
+      <div class="story-side">
+        <div class="block">
+          <div class="k en">WHO</div>
+          <div class="v">30 歲・軟體業 PM・開戶五年，同時付費訂閱兩套看盤工具，但最後仍憑感覺下單</div>
+        </div>
+        <div class="block">
+          <div class="k en">WHAT CHANGED</div>
+          <div class="v">用智勝全球回測自己原本的交易邏輯，第一次看到具體的歷史勝率與賺賠比，決定調整持股比例</div>
+        </div>
+        <div class="block">
+          <div class="k en">NOTE</div>
+          <div class="v">這是決策過程的真實分享，不是獲利保證；歷史數據不代表未來績效。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section id="cta" class="cta">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <h2>教你釣魚，而不是餵你魚。</h2>
+      <p>種子用戶名單開放中，也可直接體驗零程式碼 AI 回測 demo。</p>
+      <div class="hero-actions" style="justify-content:center; margin-top:28px;">
+        <a href="/backtest" class="btn-primary">
+          立即開啟回測工具
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <form class="cta-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='已加入名單 ✓';">
+        <input type="email" placeholder="輸入你的 Email" required>
+        <button type="submit">加入種子用戶名單</button>
+      </form>
+      <div class="cta-note">不推介個股，不保證獲利。我們只給你驗證答案的科學方法。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">
+        <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="26" stroke="#FFFFFF" stroke-width="2.4"/><path d="M17 40 C 24 42, 30 34, 36 26 C 39 22, 42 20, 47 20" stroke="#2F6FED" stroke-width="3.2" stroke-linecap="round" fill="none"/><path d="M40 18 L48 20 L45 27" stroke="#2F6FED" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <span>智勝全球</span>
+      </div>
+      <p class="foot-tag">不聽明牌，只看數據。告別盲目，數據引路。</p>
+    </div>
+    <div class="foot-links">
+      <div class="foot-col">
+        <h4>產品</h4>
+        <a href="/backtest">策略回測 Demo</a>
+        <a href="#how">如何運作</a>
+        <a href="#compare">與市場不同</a>
+        <a href="#transparency">合規透明</a>
+      </div>
+      <div class="foot-col">
+        <h4>關於</h4>
+        <a href="#pains">品牌理念</a>
+        <a href="#cta">搶先加入</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom wrap">
+    © 2026 Zhisheng Global 智勝全球．本平台提供之所有數據皆為歷史回測結果，不構成任何形式之個別有價證券價值分析、推介或投資建議，歷史數據不代表未來績效，投資人應自行判斷並承擔投資風險。
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  }, {threshold:0.12});
+  els.forEach(el=> io.observe(el));
+</script>
+</body>
+</html>
