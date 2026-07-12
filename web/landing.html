@@ -78,11 +78,12 @@
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 
   h1{
-    font-size:clamp(38px,5vw,58px);
+    font-size:clamp(28px,3.6vw,48px);
     font-weight:900;
-    line-height:1.18;
+    line-height:1.35;
     letter-spacing:-0.01em;
   }
+  h1 .line{display:block; white-space:nowrap;}
   h1 .accent{color:var(--blue);}
   .hero-sub{
     margin-top:26px; font-size:17px; line-height:1.8; color:#C9CCD3; max-width:480px;
@@ -268,6 +269,7 @@
     .navlinks{display:none;}
     .hero-grid{grid-template-columns:1fr; gap:56px;}
     .hero{padding:150px 20px 90px;}
+    h1{font-size:clamp(24px,7.2vw,36px);}
     .pain-grid{grid-template-columns:1fr;}
     .steps{grid-template-columns:1fr; gap:48px;}
     .trans-box{grid-template-columns:1fr;}
@@ -318,7 +320,10 @@
   <div class="hero-grid">
     <div class="reveal in">
       <div class="eyebrow"><span class="dot"></span> AI 零程式碼回測平台</div>
-      <h1>不聽明牌，只看數據。<br>告別盲目，<span class="accent">數據引路</span>。</h1>
+      <h1>
+        <span class="line">不聽明牌，只看數據。</span>
+        <span class="line">告別盲目，<span class="accent">數據引路</span>。</span>
+      </h1>
       <p class="hero-sub">把你心裡那套模糊的交易邏輯，變成一個用真實歷史數據驗證過的勝率與賺賠比——不是信心喊話，是你自己可以驗證的理由。</p>
       <div class="hero-actions">
         <a href="/backtest" class="btn-primary">
