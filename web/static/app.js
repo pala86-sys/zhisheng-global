@@ -288,7 +288,7 @@ function setMode(mode) {
   optimizeBtn.classList.toggle("hidden", isMaPair);
   maPairScanBtn.classList.toggle("hidden", !isMaPair);
   targetField.classList.toggle("hidden", isMaPair);
-  document.getElementById("holding-label").textContent = isMaPair ? "最長持有" : "持有";
+  document.getElementById("holding-label").textContent = "最高持有天數";
   if (isComposite) renderCompositeList();
   if (isMaPair) updateMaPairLabels();
 }
