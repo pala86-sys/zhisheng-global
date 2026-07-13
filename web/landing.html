@@ -59,9 +59,20 @@
     padding:180px 32px 120px;
     overflow:hidden;
   }
-  .hero-track{
+  .hero-bg{
     position:absolute; inset:0; z-index:0; pointer-events:none;
-    opacity:0.55;
+  }
+  .hero-bg img{
+    width:100%; height:100%; object-fit:cover; object-position:70% 40%;
+    display:block;
+  }
+  .hero-bg .hero-overlay{
+    position:absolute; inset:0;
+    background:linear-gradient(100deg,
+      rgba(13,15,20,0.97) 0%,
+      rgba(13,15,20,0.90) 38%,
+      rgba(13,15,20,0.55) 68%,
+      rgba(13,15,20,0.28) 100%);
   }
   .hero-grid{
     max-width:1120px; margin:0 auto; position:relative; z-index:1;
@@ -135,7 +146,29 @@
   }
 
   /* ---------- section shared ---------- */
-  section{padding:120px 0;}
+  section{padding:120px 0; position:relative; overflow:hidden;}
+  .section-bg{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+  }
+  .section-bg img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .section-bg .shade{
+    position:absolute; inset:0;
+  }
+  .section-bg.soft img{opacity:0.22; filter:grayscale(0.25);}
+  .section-bg.soft .shade{
+    background:linear-gradient(180deg, rgba(13,15,20,0.92) 0%, rgba(13,15,20,0.88) 50%, rgba(13,15,20,0.96) 100%);
+  }
+  .section-bg.cta-bg img{object-position:60% 30%;}
+  .section-bg.cta-bg .shade{
+    background:linear-gradient(200deg, rgba(13,15,20,0.55) 0%, rgba(13,15,20,0.88) 45%, rgba(13,15,20,0.96) 100%);
+  }
+  .section-bg.how-bg img{object-position:center 25%; opacity:0.35;}
+  .section-bg.how-bg .shade{
+    background:linear-gradient(90deg, rgba(13,15,20,0.96) 0%, rgba(13,15,20,0.82) 55%, rgba(13,15,20,0.92) 100%);
+  }
+  section > .wrap{position:relative; z-index:1;}
   .section-label{
     font-family:var(--sans-en); font-size:12px; font-weight:700; letter-spacing:0.16em;
     text-transform:uppercase; color:var(--blue); margin-bottom:16px;
@@ -223,8 +256,9 @@
   .cta{border-top:1px solid var(--gray-line);}
   .cta-box{
     margin-top:56px; text-align:center; padding:72px 32px; border-radius:24px;
-    background:linear-gradient(180deg, var(--black-2), var(--black));
+    background:rgba(20,23,31,0.72);
     border:1px solid var(--gray-line);
+    backdrop-filter:blur(10px);
   }
   .cta-box h2{font-size:clamp(26px,3.6vw,38px); font-weight:900; max-width:600px; margin:0 auto; line-height:1.4;}
   .cta-box p{margin-top:18px; color:var(--gray); font-size:15px;}
@@ -285,6 +319,13 @@
     .wrap{padding:0 16px;}
     section{padding:72px 0;}
     .hero{padding:120px 16px 72px;}
+    .hero-bg img{object-position:78% 35%;}
+    .hero-bg .hero-overlay{
+      background:linear-gradient(180deg,
+        rgba(13,15,20,0.82) 0%,
+        rgba(13,15,20,0.90) 55%,
+        rgba(13,15,20,0.96) 100%);
+    }
     .hero-grid{grid-template-columns:1fr; gap:40px;}
     h1{
       font-size:clamp(22px, 6.5vw, 34px);
@@ -366,13 +407,9 @@
 
 <!-- ============ HERO ============ -->
 <div id="top" class="hero">
-  <div class="hero-track" aria-hidden="true">
-    <svg viewBox="0 0 1120 700" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
-      <path d="M -50 600 C 200 620, 400 500, 560 380 C 700 280, 850 240, 1170 200"
-            stroke="#2F6FED" stroke-width="1" fill="none" opacity="0.25"/>
-      <path d="M -50 650 C 220 660, 420 560, 600 440 C 760 330, 900 300, 1170 260"
-            stroke="#2F6FED" stroke-width="1" fill="none" opacity="0.14"/>
-    </svg>
+  <div class="hero-bg" aria-hidden="true">
+    <img src="/static/img/hero-bg.jpg" alt="" width="1152" height="2048" decoding="async">
+    <div class="hero-overlay"></div>
   </div>
   <div class="hero-grid">
     <div class="reveal in">
@@ -431,8 +468,8 @@
 <section id="pains" class="pains">
   <div class="wrap">
     <div class="section-label reveal">為什麼會需要</div>
-    <h2 class="section-title reveal">你不是不懂，你只是沒有辦法驗證。</h2>
-    <p class="section-sub reveal">看得懂 K 線、知道本益比，訂閱了好幾個工具，但每次下單前，還是心裡發毛——這次進場，到底是真的懂，還是在賭。</p>
+    <h2 class="section-title reveal">你不是不懂，你只是沒有辦法驗證</h2>
+    <p class="section-sub reveal">看得懂 K 線、知道本益比，訂閱了好幾個工具，但每次下單前，還是心裡發毛。<br>這次進場，到底是真的懂，還是在賭。</p>
 
     <div class="pain-grid">
       <div class="pain-card reveal">
@@ -458,7 +495,7 @@
 <section id="compare" class="compare">
   <div class="wrap">
     <div class="section-label reveal">與市場不同</div>
-    <p class="compare-quote reveal">別人給你<span class="em">信心喊話</span>，我們給你<span class="em">可以自己驗證</span>的理由。</p>
+    <p class="compare-quote reveal">別人給你<span class="em">信心喊話</span>，我們給你<span class="em">可以自己驗證</span>的理由</p>
 
     <div class="table-scroll reveal">
     <table>
@@ -501,9 +538,13 @@
 
 <!-- ============ HOW IT WORKS ============ -->
 <section id="how" class="how">
+  <div class="section-bg how-bg" aria-hidden="true">
+    <img src="/static/img/section-side.jpg" alt="" width="736" height="1308" loading="lazy" decoding="async">
+    <div class="shade"></div>
+  </div>
   <div class="wrap">
     <div class="section-label reveal">如何運作</div>
-    <h2 class="section-title reveal">三個步驟，把直覺變成數字。</h2>
+    <h2 class="section-title reveal">三個步驟，把直覺變成數字</h2>
 
     <div class="steps">
       <div class="step reveal">
@@ -538,7 +579,7 @@
 <section id="transparency" class="transparency">
   <div class="wrap">
     <div class="section-label reveal">合規透明</div>
-    <h2 class="section-title reveal">「不報明牌」不是免責聲明，是我們的產品設計。</h2>
+    <h2 class="section-title reveal">「不報明牌」不是免責聲明，是我們的<br>產品設計</h2>
 
     <div class="trans-box reveal">
       <div>
@@ -559,6 +600,10 @@
 
 <!-- ============ STORY ============ -->
 <section class="story">
+  <div class="section-bg soft" aria-hidden="true">
+    <img src="/static/img/section-soft.jpg" alt="" width="314" height="471" loading="lazy" decoding="async">
+    <div class="shade"></div>
+  </div>
   <div class="wrap">
     <div class="section-label reveal">種子用戶</div>
     <div class="story-box reveal">
@@ -583,9 +628,13 @@
 
 <!-- ============ CTA ============ -->
 <section id="cta" class="cta">
+  <div class="section-bg cta-bg" aria-hidden="true">
+    <img src="/static/img/section-cta.jpg" alt="" width="768" height="1408" loading="lazy" decoding="async">
+    <div class="shade"></div>
+  </div>
   <div class="wrap">
     <div class="cta-box reveal">
-      <h2>教你釣魚，而不是餵你魚。</h2>
+      <h2>教你釣魚，而不是餵你魚</h2>
       <p>種子用戶名單開放中，也可直接體驗零程式碼 AI 回測 demo。</p>
       <div class="hero-actions" style="justify-content:center; margin-top:28px;">
         <a href="/backtest" class="btn-primary">
