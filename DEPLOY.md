@@ -37,7 +37,16 @@ git push -u origin main
    - **Health Check Path**：`/api/health`
 4. **Environment Variables**（選填）：
    - `FINMIND_TOKEN` = 你的 FinMind Token
+   - `SEED_ADMIN_TOKEN` = 查詢種子名單用的密鑰（自訂一串密碼）
+   - `SEED_WEBHOOK_URL` = （建議）Make.com / Zapier / Discord Webhook，把報名同步出去
+   - `SEED_LIST_PATH` = （建議雲端）持久化磁碟路徑，例如 `/var/data/seed_emails.json`
+
+> **重要**：Render 免費版重新部署會清空容器內檔案。若要名單不丟，請掛 **Persistent Disk** 並設 `SEED_LIST_PATH`，或設 `SEED_WEBHOOK_URL` 同步到 Google Sheet。
+
 5. 按 **Create Web Service**，等待建置完成
+
+查詢名單（瀏覽器或 curl）：
+`https://你的網域/api/seed-list?token=你的SEED_ADMIN_TOKEN`
 
 ### 3. 取得網址
 

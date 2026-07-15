@@ -13,3 +13,6 @@ Thumbs.db
 .idea/
 .vscode/
 .cursor/
+data/seed_emails.json
+data/seed_emails.tmp
+

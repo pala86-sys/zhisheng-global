@@ -9,3 +9,9 @@ services:
     envVars:
       - key: FINMIND_TOKEN
         sync: false
+      - key: SEED_ADMIN_TOKEN
+        sync: false
+      - key: SEED_WEBHOOK_URL
+        sync: false
+      - key: SEED_LIST_PATH
+        sync: false

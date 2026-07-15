@@ -58,7 +58,8 @@ body {
   flex-shrink: 0;
 }
 
-.topbar-brand svg {
+.topbar-brand svg,
+.topbar-brand img {
   width: 22px;
   height: 22px;
   display: block;

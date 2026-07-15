@@ -15,12 +15,37 @@ log = logging.getLogger(__name__)
 from backtest.engine import run_backtest, run_ma_pair_scan
 from backtest.optimize import run_optimize
 from backtest.strategies import CATEGORY_LABELS, SIDE_LABELS, list_strategies
+from services.seed_list import add_seed_email, list_seed_emails
 from services.stock_search import search_stocks
 
 ROOT = Path(__file__).resolve().parent
 WEB_DIR = ROOT / "web"
 
 app = FastAPI(title="智勝全球 · 策略回測", version="1.0.0")
+
+_seed_hits: dict[str, list[float]] = {}
+
+
+def _client_ip(request: Request) -> str:
+    forwarded = (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
+    if forwarded:
+        return forwarded
+    if request.client:
+        return request.client.host or "unknown"
+    return "unknown"
+
+
+def _seed_rate_limited(ip: str, *, limit: int = 8, window_sec: float = 3600) -> bool:
+    import time
+
+    now = time.monotonic()
+    hits = [t for t in _seed_hits.get(ip, []) if now - t < window_sec]
+    if len(hits) >= limit:
+        _seed_hits[ip] = hits
+        return True
+    hits.append(now)
+    _seed_hits[ip] = hits
+    return False
 
 
 @app.exception_handler(RequestValidationError)
@@ -63,6 +88,32 @@ class BacktestRequest(BaseModel):
 @app.get("/api/health")
 def health():
     return {"ok": True}
+
+
+class SeedSignupRequest(BaseModel):
+    email: str = Field(..., min_length=3, max_length=254, description="種子用戶 Email")
+
+
+@app.post("/api/seed-signup")
+def api_seed_signup(req: SeedSignupRequest, request: Request):
+    if _seed_rate_limited(_client_ip(request)):
+        return {"ok": False, "msg": "提交過於頻繁，請稍後再試"}
+    try:
+        return add_seed_email(req.email, source="landing")
+    except Exception as exc:
+        log.error("Seed signup failed\n%s", traceback.format_exc())
+        return {"ok": False, "msg": f"無法加入名單：{exc}"}
+
+
+@app.get("/api/seed-list")
+def api_seed_list(token: str = Query("", description="SEED_ADMIN_TOKEN")):
+    import os
+
+    expected = (os.environ.get("SEED_ADMIN_TOKEN") or "").strip()
+    if not expected or token != expected:
+        return JSONResponse(status_code=401, content={"ok": False, "msg": "未授權"})
+    rows = list_seed_emails()
+    return {"ok": True, "count": len(rows), "emails": rows}
 
 
 @app.get("/api/strategies")
