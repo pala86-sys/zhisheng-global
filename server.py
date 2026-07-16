@@ -219,6 +219,11 @@ def landing():
     return FileResponse(WEB_DIR / "landing.html")
 
 
+@app.get("/learn")
+def learn_page():
+    return FileResponse(WEB_DIR / "learn.html")
+
+
 @app.get("/backtest")
 def backtest_app():
     return FileResponse(WEB_DIR / "backtest.html")

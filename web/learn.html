@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>認識股票｜智勝全球</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0D0F14;
+    --black-2:#14171F;
+    --white:#FFFFFF;
+    --blue:#2F6FED;
+    --blue-dim:rgba(47,111,237,0.14);
+    --gray:#8A8F98;
+    --gray-line:rgba(138,143,152,0.22);
+    --serif-zh:"Noto Sans TC","思源黑體",sans-serif;
+    --sans-en:"Inter",sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:var(--serif-zh);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  .en{font-family:var(--sans-en);}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(13,15,20,0.72);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--gray-line);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:1120px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{width:28px; height:28px; display:block;}
+  .brand span{font-weight:700; font-size:16px; letter-spacing:0.02em;}
+  .navlinks{display:flex; gap:28px; font-size:14px; color:var(--gray);}
+  .navlinks a{transition:color .2s;}
+  .navlinks a:hover,
+  .navlinks a.active{color:var(--white);}
+  .nav-cta{
+    font-size:14px; font-weight:600; padding:9px 20px; border-radius:100px;
+    background:var(--blue); color:var(--white); white-space:nowrap;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .nav-cta:hover{transform:translateY(-1px); box-shadow:0 8px 24px rgba(47,111,237,0.35);}
+
+  .page-hero{
+    padding:150px 32px 72px;
+    border-bottom:1px solid var(--gray-line);
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--sans-en); font-size:12px; font-weight:600; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--blue);
+    border:1px solid rgba(47,111,237,0.35); background:var(--blue-dim);
+    padding:6px 14px; border-radius:100px; margin-bottom:24px;
+  }
+  h1{
+    font-size:clamp(28px,4vw,44px);
+    font-weight:900;
+    line-height:1.3;
+    letter-spacing:-0.01em;
+    max-width:720px;
+  }
+  .page-sub{
+    margin-top:20px; font-size:16px; line-height:1.85; color:#C9CCD3; max-width:560px;
+  }
+  .toc{
+    margin-top:40px; display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .toc a{
+    font-size:13px; color:#C9CCD3; border:1px solid var(--gray-line);
+    padding:10px 16px; border-radius:100px; transition:border-color .2s, color .2s, background .2s;
+  }
+  .toc a:hover{border-color:var(--blue); color:var(--white); background:var(--blue-dim);}
+
+  section{padding:88px 0; border-top:1px solid var(--gray-line);}
+  .section-label{
+    font-family:var(--sans-en); font-size:12px; font-weight:700; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--blue); margin-bottom:16px;
+  }
+  .section-title{font-size:clamp(24px,3.2vw,34px); font-weight:900; line-height:1.35; max-width:680px;}
+  .section-sub{margin-top:16px; font-size:15.5px; line-height:1.85; color:#C9CCD3; max-width:620px;}
+
+  .topic-grid{
+    margin-top:48px; display:grid; grid-template-columns:1fr 1fr; gap:20px;
+  }
+  .topic-card{
+    background:var(--black-2);
+    border:1px solid var(--gray-line);
+    border-radius:18px;
+    padding:32px 28px;
+  }
+  .topic-kicker{
+    font-family:var(--sans-en); font-size:12px; font-weight:700; letter-spacing:0.12em;
+    color:var(--blue); text-transform:uppercase;
+  }
+  .topic-title{margin-top:12px; font-size:20px; font-weight:700;}
+  .topic-def{margin-top:12px; font-size:14.5px; line-height:1.8; color:#C9CCD3;}
+  .topic-list{margin-top:20px; list-style:none;}
+  .topic-list li{
+    position:relative; padding:12px 0 12px 18px;
+    border-top:1px solid var(--gray-line);
+    font-size:14px; line-height:1.75; color:var(--gray);
+  }
+  .topic-list li:first-child{border-top:none;}
+  .topic-list li::before{
+    content:""; position:absolute; left:0; top:20px;
+    width:6px; height:6px; border-radius:50%; background:var(--blue);
+  }
+  .topic-list b{color:var(--white); font-weight:600;}
+  .topic-figure{
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+  }
+  .topic-figure img{
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:auto;
+    border-radius:12px;
+  }
+
+  img, svg{max-width:100%; height:auto;}
+
+  .mind-grid{
+    margin-top:48px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--gray-line); border:1px solid var(--gray-line); border-radius:16px; overflow:hidden;
+  }
+  .mind-card{background:var(--black); padding:32px 28px;}
+  .mind-num{font-family:var(--sans-en); font-size:13px; color:var(--gray); font-weight:600;}
+  .mind-title{margin-top:16px; font-size:18px; font-weight:700; line-height:1.5;}
+  .mind-desc{margin-top:12px; font-size:14.5px; line-height:1.8; color:var(--gray);}
+
+  .tip-box{
+    margin-top:40px; border:1px solid rgba(47,111,237,0.3); border-radius:16px;
+    padding:28px 32px; background:radial-gradient(circle at 10% 20%, rgba(47,111,237,0.12), transparent 55%);
+    font-size:15px; line-height:1.85; color:#C9CCD3;
+  }
+  .tip-box strong{color:var(--white);}
+
+  .cta-band{
+    margin-top:0; padding:72px 0 100px;
+  }
+  .cta-box{
+    text-align:center; padding:64px 32px; border-radius:24px;
+    background:linear-gradient(180deg, var(--black-2), var(--black));
+    border:1px solid var(--gray-line);
+  }
+  .cta-box h2{font-size:clamp(24px,3.2vw,34px); font-weight:900; line-height:1.4;}
+  .cta-box p{margin-top:14px; color:var(--gray); font-size:15px;}
+  .btn-primary{
+    margin-top:28px; display:inline-flex; align-items:center; gap:8px;
+    background:var(--blue); color:var(--white); font-weight:700; font-size:15px;
+    padding:15px 28px; border-radius:100px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 28px rgba(47,111,237,0.4);}
+
+  footer{border-top:1px solid var(--gray-line); padding:56px 32px 40px;}
+  .foot-grid{max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;}
+  .foot-brand{display:flex; align-items:center; gap:10px;}
+  .foot-brand img{width:24px; height:24px; display:block;}
+  .foot-brand span{font-weight:700; font-size:15px;}
+  .foot-tag{margin-top:12px; font-size:13px; color:var(--gray); max-width:280px; line-height:1.7;}
+  .foot-links{display:flex; gap:56px; flex-wrap:wrap;}
+  .foot-col h4{font-size:12.5px; color:var(--gray); font-weight:600; margin-bottom:14px; letter-spacing:0.04em;}
+  .foot-col a{display:block; font-size:13.5px; color:#C9CCD3; margin-bottom:10px;}
+  .foot-col a:hover{color:var(--white);}
+  .foot-bottom{
+    max-width:1120px; margin:48px auto 0; padding-top:24px; border-top:1px solid var(--gray-line);
+    font-size:11.5px; color:var(--gray); line-height:1.9;
+  }
+
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:none;}
+
+  @media (max-width: 860px){
+    .navlinks{display:none;}
+    nav{padding:14px 16px;}
+    .wrap{padding:0 16px;}
+    .page-hero{padding:120px 16px 56px;}
+    section{padding:64px 0;}
+    .topic-grid{grid-template-columns:1fr;}
+    .mind-grid{grid-template-columns:1fr;}
+    .topic-card{padding:24px 20px;}
+    .cta-box{padding:48px 20px;}
+    footer{padding:40px 16px 32px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="/" class="brand">
+      <img src="/static/img/logo-mark.png" alt="" width="28" height="28" decoding="async">
+      <span>智勝全球</span>
+    </a>
+    <div class="navlinks">
+      <a href="/">首頁</a>
+      <a href="/learn" class="active">認識股票</a>
+      <a href="/#how">如何運作</a>
+      <a href="/#transparency">合規透明</a>
+    </div>
+    <a href="/backtest" class="nav-cta">立即體驗回測</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow reveal in">Learn Map</div>
+    <h1 class="reveal in">股市新手學習地圖<br>從入門到籌碼分析</h1>
+    <p class="page-sub reveal in">循序漸進建立正確觀念：先讀懂價格表情，再理解技術指標，最後看懂「誰」在買賣——再把想法拿去回測驗證。</p>
+    <div class="toc reveal in">
+      <a href="#stage-1">第一階段 · 基本功</a>
+      <a href="#stage-2">第二階段 · 技術指標</a>
+      <a href="#stage-3">第三階段 · 籌碼面</a>
+      <a href="#mindset">新手三大心法</a>
+    </div>
+  </div>
+</div>
+
+<section id="stage-1">
+  <div class="wrap">
+    <div class="section-label reveal">STAGE 01</div>
+    <h2 class="section-title reveal">基本功——讀懂股價的表情</h2>
+    <p class="section-sub reveal">先把 K 線與均線看懂，你才有辦法描述「發生了什麼」，而不是只記得漲跌。</p>
+
+    <div class="topic-grid">
+      <article class="topic-card reveal">
+        <div class="topic-kicker en">Candlestick</div>
+        <h3 class="topic-title">認識 K 線（蠟燭圖）</h3>
+        <p class="topic-def">將一段時間內（如一日）的開盤、收盤、最高、最低四個價格，濃縮在一張圖表中。</p>
+        <figure class="topic-figure">
+          <img src="/static/img/learn/learn-kline.png" alt="K 線蠟燭圖：開盤、收盤、最高、最低與影線意義示意" width="1200" height="675" loading="lazy" decoding="async">
+        </figure>
+      </article>
+
+      <article class="topic-card reveal">
+        <div class="topic-kicker en">Moving Average</div>
+        <h3 class="topic-title">認識均線</h3>
+        <p class="topic-def">過去一段時間的平均成交價格，連成的一條線，可視為市場在這段期間的平均成本。</p>
+        <figure class="topic-figure">
+          <img src="/static/img/learn/learn-ma.png" alt="均線示意：成本線、趨勢判斷、黃金交叉與死亡交叉" width="1200" height="900" loading="lazy" decoding="async">
+        </figure>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="stage-2">
+  <div class="wrap">
+    <div class="section-label reveal">STAGE 02</div>
+    <h2 class="section-title reveal">輔助決策——技術指標的運用</h2>
+    <p class="section-sub reveal">指標是幫你整理價格節奏的工具，不是保證獲利的按鈕。</p>
+
+    <div class="topic-grid">
+      <article class="topic-card reveal">
+        <div class="topic-kicker en">KD</div>
+        <h3 class="topic-title">KD 指標（震盪指標）</h3>
+        <p class="topic-def">適合抓取短線轉折，觀察股價是否過熱或過冷。</p>
+        <figure class="topic-figure">
+          <img src="/static/img/learn/learn-kd.png" alt="KD 指標：超買區、超賣區與鈍化警示示意" width="1200" height="675" loading="lazy" decoding="async">
+        </figure>
+      </article>
+
+      <article class="topic-card reveal">
+        <div class="topic-kicker en">MACD</div>
+        <h3 class="topic-title">MACD 指標（趨勢指標）</h3>
+        <p class="topic-def">比 KD 更穩定，適合波段操作，用來觀察趨勢方向與動能強弱。</p>
+        <figure class="topic-figure">
+          <img src="/static/img/learn/learn-macd.png" alt="MACD 指標：快慢線、紅綠柱體與動能訊號示意" width="1200" height="675" loading="lazy" decoding="async">
+        </figure>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="stage-3">
+  <div class="wrap">
+    <div class="section-label reveal">STAGE 03</div>
+    <h2 class="section-title reveal">籌碼面——觀察「誰」在買賣</h2>
+    <p class="section-sub reveal">價格告訴你發生什麼；籌碼幫你理解是誰在推動這段走勢。</p>
+
+    <div class="topic-grid">
+      <article class="topic-card reveal">
+        <div class="topic-kicker en">Foreign</div>
+        <h3 class="topic-title">外資（外國機構投資人）</h3>
+        <p class="topic-def">資金雄厚，重視長線基本面與國際資金流動，對大型權值股影響力巨大。</p>
+        <ul class="topic-list">
+          <li>適合搭配權值股與中長線趨勢一起觀察</li>
+          <li>單日買賣超之外，也可看連續買超／賣超節奏</li>
+        </ul>
+      </article>
+
+      <article class="topic-card reveal">
+        <div class="topic-kicker en">Trust</div>
+        <h3 class="topic-title">投信（國內機構法人）</h3>
+        <p class="topic-def">操作節奏靈活，偏好中小型飆股，常有季底／年底作帳行情，是觀察強勢股的重要指標。</p>
+        <ul class="topic-list">
+          <li>常與外資同步出現時，籌碼共識較明確</li>
+          <li>適合用來理解短中期資金偏好</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="mindset">
+  <div class="wrap">
+    <div class="section-label reveal">MINDSET</div>
+    <h2 class="section-title reveal">給新手的三大心法</h2>
+    <p class="section-sub reveal">工具會變多，但原則很簡單：理解、驗證、紀律。</p>
+
+    <div class="mind-grid">
+      <div class="mind-card reveal">
+        <div class="mind-num en">01</div>
+        <div class="mind-title">善用比喻</div>
+        <div class="mind-desc">學習時把複雜數據想像成生活場景，降低理解門檻，先懂再記。</div>
+      </div>
+      <div class="mind-card reveal">
+        <div class="mind-num en">02</div>
+        <div class="mind-title">不神話指標</div>
+        <div class="mind-desc">技術指標多屬落後指標，反映的是過去價格邏輯，不能 100% 預測未來。</div>
+      </div>
+      <div class="mind-card reveal">
+        <div class="mind-num en">03</div>
+        <div class="mind-title">紀律至上</div>
+        <div class="mind-desc">技術分析再精準，若沒有嚴格執行停損，最終仍難以在市場站穩。</div>
+      </div>
+    </div>
+
+    <div class="tip-box reveal">
+      <strong>學習建議：</strong>先從觀察真實的 K 線圖開始，嘗試把均線與指標套用在過往走勢上，你會慢慢看見市場情緒的規律。接著，把你的想法放進智勝全球回測——用歷史數據驗證，而不是憑感覺下單。
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <h2>讀懂之後，下一步是驗證</h2>
+      <p>把你學到的條件組成策略，用真實歷史數據看看勝率與賺賠比。</p>
+      <a href="/backtest" class="btn-primary">
+        立即體驗回測
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">
+        <img src="/static/img/logo-mark.png" alt="" width="24" height="24" decoding="async">
+        <span>智勝全球</span>
+      </div>
+      <p class="foot-tag">不聽明牌，只看數據<br>告別盲目，數據引路</p>
+    </div>
+    <div class="foot-links">
+      <div class="foot-col">
+        <h4>產品</h4>
+        <a href="/backtest">策略回測 Demo</a>
+        <a href="/learn">認識股票</a>
+        <a href="/#how">如何運作</a>
+      </div>
+      <div class="foot-col">
+        <h4>關於</h4>
+        <a href="/#pains">品牌理念</a>
+        <a href="/#cta">搶先加入</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom wrap">
+    © 2026 Zhisheng Global 智勝全球．本頁為投資觀念教學整理，不構成個股推介或投資建議，歷史數據不代表未來績效。
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  }, {threshold:0.12});
+  els.forEach(el=> io.observe(el));
+</script>
+</body>
+</html>
